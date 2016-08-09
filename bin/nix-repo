@@ -1,0 +1,122 @@
+#!/bin/sh -eu
+
+################################################################################
+# Based on ideas taken from:
+# http://anderspapitto.com/posts/2015-11-01-nixos-with-local-nixpkgs-checkout.html
+
+################################################################################
+# Default (environment) variables:
+NIX_DEFEXPR=$HOME/.nix-defexpr
+NIX_REPO_BASE=${NIX_REPO_BASE:-$NIX_DEFEXPR/custom}
+NIX_REPO_DIR=${NIX_REPO_DIR:-$NIX_REPO_BASE/nixpkgs}
+UPSTREAM_REPO=${NIXPKGS_REPO:-"https://github.com/NixOS/nixpkgs.git"}
+CHANNELS_REPO=${CHANNELS_REPO:-"https://github.com/NixOS/nixpkgs-channels.git"}
+POINTER_TAG=$USER/packages
+
+################################################################################
+usage() {
+  name=`basename $0`
+
+  cat <<EOF
+Usage: $name subcommand
+
+Subcommands:
+
+     init: Prepare the local nixpkgs repo by cloning an origin repo
+           (which is probably a fork of the official nixpkgs repo) and
+           then set up other remotes.
+
+           Usage: $name init <origin git URL>
+
+   update: Update the local nixpkgs repo by resetting it to the
+           tag "$POINTER_TAG".
+
+  remotes: Add the upstream and channels remotes to the current
+           git repository.
+
+EOF
+}
+
+################################################################################
+die() {
+  { echo "error: $@"; echo; usage; } >&2
+  exit 1
+}
+
+################################################################################
+command_init() {
+  [ $# -eq 1 ] || die "missing origin git URL"
+  url=$1
+
+  # Prepare the base dir and clone the repo:
+  mkdir -p $NIX_REPO_BASE
+  (cd $NIX_REPO_BASE && ([ ! -r nixpkgs ] && git clone "$url"))
+
+  # Set up the newly cloned repo:
+  ( cd $NIX_REPO_DIR
+    command_remotes
+    command_link
+  )
+}
+
+################################################################################
+command_remotes() {
+  git remote add upstream "$UPSTREAM_REPO"
+  git remote add channels "$CHANNELS_REPO"
+}
+
+################################################################################
+command_link() {
+  ( cd $NIX_DEFEXPR
+    ln -nfs `realpath --relative-to=$NIX_DEFEXPR $NIX_REPO_BASE` channels
+  )
+}
+
+################################################################################
+command_unlink() {
+  ( cd $NIX_DEFEXPR
+    ln -nfs /nix/var/nix/profiles/per-user/$USER/channels channels
+  )
+}
+
+################################################################################
+command_update() {
+  ( cd $NIX_REPO_DIR
+    git fetch --quiet origin
+    git reset --hard $POINTER_TAG
+  )
+}
+
+################################################################################
+if [ $# -eq 0 ]; then
+  die "missing subcommand"
+fi
+
+################################################################################
+command=$1; shift
+
+case "$command" in
+  init)
+    command_init "$@"
+    ;;
+
+  remotes)
+    command_remotes "$@"
+    ;;
+
+  link)
+    command_link "$@"
+    ;;
+
+  unlink)
+    command_unlink "$@"
+    ;;
+
+  update|up)
+    command_update "$@"
+    ;;
+
+  *)
+    die "unknown subcommand: $command"
+    ;;
+esac
