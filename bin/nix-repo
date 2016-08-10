@@ -87,7 +87,7 @@ command_unlink() {
 ################################################################################
 command_update() {
   ( cd $NIX_REPO_DIR
-    git fetch --quiet origin
+    git fetch --quiet --tags origin
     git reset --hard $POINTER_TAG
   )
 }
