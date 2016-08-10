@@ -61,6 +61,11 @@ command_init() {
 
 ################################################################################
 command_remotes() {
+  # Remove previous remotes:
+  git remote get-url upstream > /dev/null 2>&1 && git remote rm upstream
+  git remote get-url channels > /dev/null 2>&1 && git remote rm channels
+
+  # Add some remotes:
   git remote add upstream "$UPSTREAM_REPO"
   git remote add channels "$CHANNELS_REPO"
 }
