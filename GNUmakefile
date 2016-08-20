@@ -25,6 +25,7 @@ install-packages:
 	$(error "no host.nix file for $(HOSTNAME)")
 else
 install-packages:
+# FIXME: add: --option extra-binary-cache http://localhost:5000
 	nix-env -f hosts/$(HOSTNAME).nix -ir
 endif
 
