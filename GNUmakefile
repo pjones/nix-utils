@@ -2,11 +2,13 @@
 # Some variables that can be changed from the outside:
 NIXPKGS_REPO ?= $(HOME)/.nix-defexpr/custom/nixpkgs
 BIN_DEST     ?= $(HOME)/bin
+ENV_DEST     ?= $(HOME)/.nixpkgs/envs
 
 ################################################################################
 # Some variables that will be needed:
 HOSTNAME  = $(shell hostname)
-BIN_FILES = $(shell find bin -type f)
+BIN_FILES = $(shell find bin  -type f)
+ENV_FILES = $(shell find envs -type f)
 
 ################################################################################
 # All remaining Nix commands should use this NIX_PATH.
@@ -41,4 +43,15 @@ $(2)/$(notdir $(1)): $(1)
 endef
 
 ################################################################################
+# Creates a destination directory name that includes the parent
+# directory of the given file name.
+#
+# $1: Destination directory.
+# $2: File name.
+define SUBDIR_DEST
+$(1)/$(notdir $(shell dirname $(2)))
+endef
+
+################################################################################
 $(foreach f,$(BIN_FILES),$(eval $(call INSTALL_FILE,$(f),$(BIN_DEST),0755)))
+$(foreach f,$(ENV_FILES),$(eval $(call INSTALL_FILE,$(f),$(call SUBDIR_DEST,$(ENV_DEST),$(f)),0644)))

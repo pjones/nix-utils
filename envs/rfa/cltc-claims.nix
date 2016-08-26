@@ -1,7 +1,7 @@
 let
   pkgs   = import <nixpkgs> {};
   stdenv = pkgs.stdenv;
-  mysql  = pkgs.mysql55;
+  mysql  = pkgs.mysql;
 in rec {
   cltc-claims = stdenv.mkDerivation rec {
     name = "cltc-claims";
