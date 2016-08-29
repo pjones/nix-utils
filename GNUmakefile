@@ -2,12 +2,14 @@
 # Some variables that can be changed from the outside:
 NIXPKGS_REPO ?= $(HOME)/.nix-defexpr/custom/nixpkgs
 BIN_DEST     ?= $(HOME)/bin
+LIB_DEST     ?= $(HOME)/.nixpkgs/lib
 ENV_DEST     ?= $(HOME)/.nixpkgs/envs
 
 ################################################################################
 # Some variables that will be needed:
 HOSTNAME  = $(shell hostname)
 BIN_FILES = $(shell find bin  -type f)
+LIB_FILES = $(shell find lib  -type f)
 ENV_FILES = $(shell find envs -type f)
 
 ################################################################################
@@ -54,4 +56,5 @@ endef
 
 ################################################################################
 $(foreach f,$(BIN_FILES),$(eval $(call INSTALL_FILE,$(f),$(BIN_DEST),0755)))
+$(foreach f,$(LIB_FILES),$(eval $(call INSTALL_FILE,$(f),$(call SUBDIR_DEST,$(LIB_DEST),$(f)),0644)))
 $(foreach f,$(ENV_FILES),$(eval $(call INSTALL_FILE,$(f),$(call SUBDIR_DEST,$(ENV_DEST),$(f)),0644)))
