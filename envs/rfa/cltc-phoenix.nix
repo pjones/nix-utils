@@ -1,4 +1,4 @@
-let pkgs   = import <nixpkgs> {};
+let pkgs = import <nixpkgs> {};
 in (pkgs.callPackage ../../lib/ruby { }) {
 
   ##############################################################################
@@ -27,9 +27,9 @@ in (pkgs.callPackage ../../lib/ruby { }) {
       mysqladmin -u root -f drop cltc_phoenix_test
       mysqladmin -u root create  cltc_phoenix_test
 
-      $BUNDLE exec rake db:schema:load
-      $BUNDLE exec rake db:test:clone
-      env RAILS_ENV=test $BUNDLE exec rake db:fixtures:load
+      $BUNDLE exec rake db:schema:load  && \
+        $BUNDLE exec rake db:test:clone && \
+        $BUNDLE exec rake feathers:bootstrap
     fi
   '';
 }
