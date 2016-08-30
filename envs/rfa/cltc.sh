@@ -2,4 +2,4 @@
 
 dir=`pwd`
 name=`basename $dir`
-exec nix-shell ~/.nixpkgs/envs/rfa/${name}.nix
+exec nix-shell --pure ~/.nixpkgs/envs/rfa/${name}.nix
