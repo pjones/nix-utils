@@ -22,6 +22,7 @@
     conkeror
     curl
     firefox
+    skype
     tigervnc
     wget
 
@@ -48,6 +49,7 @@
     youtube-dl
 
     # Media Editors:
+    anki
     audacity
     gimp
     inkscape
@@ -70,6 +72,7 @@
     mscgen
     pandoc
     pdftk
+    slic3r
     texlive.combined.scheme-full
     xournal
 
