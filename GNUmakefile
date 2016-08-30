@@ -21,7 +21,7 @@ export NIX_PATH=nixpkgs=$(NIXPKGS_REPO)
 
 ################################################################################
 all:
-	@ echo "Nothing here.  Try \`make install' instead."
+	@ $(MAKE) install
 
 ################################################################################
 ifeq ($(wildcard hosts/$(HOSTNAME).nix),)
