@@ -22,9 +22,10 @@ in (pkgs.callPackage ../../lib/ruby { }) {
     if [ ! -r config/database.yml ]; then
       grep -v password config/database.yml.sample > config/database.yml
 
-      mysqladmin -u root -f drop cltc_phoenix_development
+      mysqladmin -u root -f drop cltc_phoenix_development || true
       mysqladmin -u root create  cltc_phoenix_development
-      mysqladmin -u root -f drop cltc_phoenix_test
+
+      mysqladmin -u root -f drop cltc_phoenix_test  || true
       mysqladmin -u root create  cltc_phoenix_test
 
       $BUNDLE exec rake db:schema:load  && \
