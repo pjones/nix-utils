@@ -56,7 +56,7 @@ stdenv.mkDerivation rec {
 
     for f in `find $out/lib -type f -name '*.so*'`; do
       sed -i "s|/usr/lib/sane/%s|_usr_lib_sane_%s|g" $f
-      patchelf --set-rpath ${stdenv.cc.cc}/lib:$out/lib/sane $f
+      patchelf --set-rpath ${stdenv.cc.cc.lib}/lib:$out/lib/sane $f
     done
   '';
 
