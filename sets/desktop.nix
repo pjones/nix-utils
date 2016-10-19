@@ -83,6 +83,7 @@
     gparted
     parted
     x11vnc
+    ssvnc
 
     # Misc.
     dunst
