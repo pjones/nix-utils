@@ -1,6 +1,7 @@
 ################################################################################
 # Some variables that can be changed from the outside:
 NIXPKGS_REPO ?= $(HOME)/.nix-defexpr/custom/nixpkgs
+FIRMWARE_DIR ?= $(HOME)/documents/disk-images/firmware
 BIN_DEST     ?= $(HOME)/bin
 LIB_DEST     ?= $(HOME)/.nixpkgs/lib
 ENV_DEST     ?= $(HOME)/.nixpkgs/envs
@@ -30,6 +31,7 @@ install-packages:
 else
 install-packages:
 # FIXME: add: --option extra-binary-cache http://localhost:5000
+	find $(FIRMWARE_DIR) -type f -exec nix-prefetch-url 'file://{}' ';'
 	nix-env -f hosts/$(HOSTNAME).nix -ir
 endif
 
