@@ -13,7 +13,6 @@
     pass
 
     # Terminals and core software:
-    gnome.gnome_keyring
     wmctrl
 
     # Internet Utilities:
@@ -40,7 +39,7 @@
     zathura
 
     # Media Ripping, Burning, Scanning, Encoding, etc.:
-    # makemkv
+    makemkv
     brotherDSSeries # My scanner driver
     cdrkit          # cdrecord, mkisofs, etc.
     grip
