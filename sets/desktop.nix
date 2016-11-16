@@ -64,6 +64,7 @@
     gcolor2
     ghostscript
     graphviz
+    gromit-mpx
     haskellPackages.pandoc-citeproc
     haskellPackages.pandoc-crossref
     impressive
