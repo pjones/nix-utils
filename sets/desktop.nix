@@ -61,6 +61,7 @@
     aspellDicts.en
     curaLulzbot
     dict
+    edify
     gcolor2
     ghostscript
     graphviz
