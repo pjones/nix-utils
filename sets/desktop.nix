@@ -87,6 +87,7 @@
     ssvnc
 
     # Misc.
+    clockdown
     dunst
     libnotify
     libossp_uuid
