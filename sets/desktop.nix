@@ -13,7 +13,7 @@
     pass
 
     # Terminals and core software:
-    wmctrl
+    termite wmctrl
 
     # Internet Utilities:
     asynk
