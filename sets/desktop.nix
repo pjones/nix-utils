@@ -18,7 +18,6 @@
     # Internet Utilities:
     asynk
     chromium
-    conkeror
     curl
     firefox
     skype
