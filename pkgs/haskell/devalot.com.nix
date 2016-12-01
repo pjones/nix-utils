@@ -7,7 +7,7 @@ let haskpkgs = p:
         goodsnap  = p.snap.override { heist = goodheist; };
     in with p; [
       goodsnap # See above.
-    
+
       aeson
       base
       blaze-builder
@@ -46,12 +46,16 @@ in myHaskellBuilder haskpkgs {
     sha256 = "";
   };
 
+  # Needed to build the site.
+  LANG = "en_US.UTF-8";
+
+  # Extra packages.
   buildInputs = with pkgs; [
     sassc # For processing Sass.
   ];
-  
+
+  # Build the site from source after building.
   postInstall = ''
-    export LANG=en_US.UTF-8
     $out/bin/devalot-frontend rebuild
     mv www $out/www
   '';
