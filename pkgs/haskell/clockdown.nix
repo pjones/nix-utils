@@ -16,11 +16,11 @@ let haskpkgs = p: with p; [
     ];
 in myHaskellBuilder haskpkgs {
   name    = "clockdown";
-  version = "0.1.0.0";
+  version = "0.2.0.0";
 
   src = fetchgit {
     url    = "git://pmade.com/clockdown";
-    rev    = "9f7e77a9923d35ab0d751db912711c53405cd4d9";
-    sha256 = "0vniv04v34xn49bbrp4c2xfwmhbsj25w3iywxf56i1jks6y2k93n";
+    rev    = "18a51dfcba695df3ed0ac5661c1c57d759ed15d6";
+    sha256 = "1fyjdihqj52d548abmm5k46kijxxsv8g8gv9l8nckzmn0drb8yq3";
   };
 }
