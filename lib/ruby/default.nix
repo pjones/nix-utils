@@ -4,7 +4,7 @@ with stdenv.lib;
 
 { ruby         ? pkgs.ruby_2_2
 , mysql        ? pkgs.mysql
-, v8           ? pkgs.v8_3_16_14
+, v8package    ? pkgs.v8_3_16_14
 , buildInputs  ? []
 , shellHook    ? ""
 , bundleConfig ? ""
@@ -39,14 +39,16 @@ in stdenv.mkDerivation (args // {
 
     # Bundler has a long standing bug of fucking up the generation of its config file.
     rm -rf .bundle/config
+    mkdir -p .bundle
     ( echo "--"
       echo "BUNDLE_PATH: vendor/bundle"
       echo "BUNDLE_DISABLE_SHARED_GEMS: '1'"
-      echo ${bundleConfig}                  
+      echo ${bundleConfig}
       ${concatMapStrings (h: concatStrings ["echo " (h.bundleConfig or "") "\n"]) helpers}
     ) > .bundle/config
 
     # Need correct LD_FLAGS for building some C extensions (mysql).
+    export LD=/run/current-system/sw/bin/ld # needed for v8
     export LD_FLAGS="-L${pkgs.openssl}/lib"
 
     # Now that we have all that, let's install some gems.

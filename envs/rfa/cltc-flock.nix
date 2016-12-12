@@ -9,4 +9,9 @@ in (pkgs.callPackage ../../lib/ruby { }) {
   ##############################################################################
   # Load some additional Nix helper files:
   extras = [ "mysql" "nokogiri" "v8" ];
+
+  ##############################################################################
+  buildInputs = with pkgs; [
+    inetutils # for hostname(1)
+  ];
 }

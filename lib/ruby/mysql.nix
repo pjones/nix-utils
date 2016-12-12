@@ -11,6 +11,6 @@ with stdenv.lib; {
   bundleConfig = concatStringsSep " " [
     "BUNDLE_BUILD__MYSQL2:"
     "--with-zlib=${pkgs.zlib}"
-    "--with-mysql-config=${mysql.lib}/bin/mysql_config"
+    "--with-mysql-config=${mysql}/bin/mysql_config"
   ];
 }
