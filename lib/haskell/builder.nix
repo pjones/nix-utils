@@ -38,6 +38,10 @@ in stdenv.mkDerivation (args // {
   name = "${name}-${version}";
 
   ##############################################################################
+  # Don't let the `ghc' argument to this file leak into the derivation:
+  ghc = ghc.ghc.name; # (Turn the ghc function into a string.)
+
+  ##############################################################################
   src = if forceLocalSource
         then builtins.getEnv "PWD"
         else args.src;

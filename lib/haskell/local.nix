@@ -6,7 +6,7 @@ let
   pkgs = nixpkgs.pkgs;
 
   # My super awesome Haskell builder:
-  myHaskellBuilder = pkgs.callPackage ./builder.nix { };
+  myHaskellBuilder = with pkgs; callPackage ./builder.nix { };
 
   # The path to the package.nix file:
   filepath = builtins.getEnv "HASKELL_NIX_FILE";
