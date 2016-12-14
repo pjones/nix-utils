@@ -41,7 +41,6 @@ let haskpkgs = p: with p; [
       setlocale
       split
       stm
-      taffybar
       text
       time
       time-locale-compat
@@ -50,8 +49,6 @@ let haskpkgs = p: with p; [
       utf8-string
       word8
       xdg-basedir
-      xmonad
-      xmonad-contrib
     ];
 in myHaskellBuilder haskpkgs {
   name    = "xmonadrc";
@@ -61,12 +58,21 @@ in myHaskellBuilder haskpkgs {
   ghc = pkgs.haskell.packages.ghc801;
 
   src = fetchgit {
-    url    = "git://pmade.com/xmonad";
-    rev    = "";
-    sha256 = "";
+    url    = "git://pmade.com/xmonadrc.git";
+    rev    = "ad45904f4bffef5bbdb602244840937f4893a81f";
+    sha256 = "0hp143dsi3c7c9qwwngmcwca9amr4c0dlwkp4c5gffvpb3mw4kia";
   };
 
   buildInputs = with pkgs; [
     gtk2
   ];
+
+  postInstall = ''
+    # Install taffybar configuration:
+    mkdir -p $out/share/taffybar
+    cp etc/taffybar.gtk $out/share/taffybar/taffybar.rc
+
+    # For backwards compatibility:
+    cp $out/bin/xmonadrc $out/bin/xmonad
+  '';
 }

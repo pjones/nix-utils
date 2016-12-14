@@ -70,7 +70,16 @@ in stdenv.mkDerivation (args // {
   buildPhase = ''
     ${setHome}
     runHook preBuild
-    cabal new-build
+
+    # There's a bug in cabal which is why I am using `--jobs=1' below.
+    # https://github.com/haskell/cabal/issues/3460
+    # https://github.com/haskell/cabal/pull/3509
+    if [ `cabal --version|head -1|cut -d' ' -f3|cut -d. -f1,2` = "1.24" ]; then
+      cabal new-build --jobs=1
+    else
+      cabal new-build
+    fi
+
     runHook postBuild
   '';
 
