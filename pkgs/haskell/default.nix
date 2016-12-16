@@ -6,4 +6,5 @@ in
 {
   clockdown =  callHaskellPackage ./clockdown.nix;
   edify =  callHaskellPackage ./edify.nix;
+  xmonadrc =  callHaskellPackage ./xmonadrc.nix;
 }

@@ -60,7 +60,7 @@ in myHaskellBuilder haskpkgs {
   src = fetchgit {
     url    = "git://pmade.com/xmonadrc.git";
     rev    = "ad45904f4bffef5bbdb602244840937f4893a81f";
-    sha256 = "0hp143dsi3c7c9qwwngmcwca9amr4c0dlwkp4c5gffvpb3mw4kia";
+    sha256 = "09mg09bh0cb0pzssqyam7rq2f5c0xm7z306vmv17nbryc73qpx6k";
   };
 
   buildInputs = with pkgs; [

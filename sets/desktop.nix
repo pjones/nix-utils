@@ -9,11 +9,13 @@
 
   # Packages for a full user experience on a laptop or workstation.
   packages = with pkgs; [
+    # Terminals and core software:
+    xmonadrc # My custom window manager.
+    termite
+    wmctrl
+
     # Security:
     pass
-
-    # Terminals and core software:
-    termite wmctrl
 
     # Internet Utilities:
     asynk
