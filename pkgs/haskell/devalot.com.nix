@@ -38,12 +38,12 @@ let haskpkgs = p:
     ];
 in myHaskellBuilder haskpkgs {
   name    = "devalot";
-  version = "0.3.0.0";
+  version = "0.4.0.0";
 
   src = fetchgit {
-    url    = "pmade.com:git/devalot/site.git";
-    rev    = "";
-    sha256 = "";
+    url    = "ssh://dracula.pmade.com/git/devalot/site.git";
+    rev    = "92863903350bbac2909b23aebd938673c34200d5";
+    sha256 = "0bwa2q8pm4383z83ap1ld3aw56qp8mppxf58nlclf095c4f6iyjg";
   };
 
   # Needed to build the site.
@@ -51,7 +51,8 @@ in myHaskellBuilder haskpkgs {
 
   # Extra packages.
   buildInputs = with pkgs; [
-    sassc # For processing Sass.
+    sassc  # For processing Sass.
+    nodejs # For auto-prefixer (postcss).
   ];
 
   # Build the site from source after building.

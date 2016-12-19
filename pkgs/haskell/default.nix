@@ -5,6 +5,7 @@ let myHaskellBuilder = pkgs.callPackage ../../lib/haskell/builder.nix { };
 in
 {
   clockdown =  callHaskellPackage ./clockdown.nix;
+  devalot-www = callHaskellPackage ./devalot.com.nix;
   edify =  callHaskellPackage ./edify.nix;
   xmonadrc =  callHaskellPackage ./xmonadrc.nix;
 }
