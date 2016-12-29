@@ -8,6 +8,7 @@ with stdenv.lib;
 , buildInputs  ? []
 , shellHook    ? ""
 , bundleConfig ? ""
+, bundleVer    ? "1.13.6"
 , extras       ? [ ]
 , ...
 }@args:
@@ -34,7 +35,10 @@ in stdenv.mkDerivation (args // {
     export PATH=`dirname $BUNDLE`:$PATH
 
     if [ ! -x $BUNDLE ]; then
-      ${ruby}/bin/gem install --user-install bundler
+      # Install a specific bundler version because it's a POS.
+      # Version 1.13.7 sometimes reports itself as 1.13.6 and then
+      # refuses to run.
+      ${ruby}/bin/gem install --user-install --version="${bundleVer}" bundler
     fi
 
     # Bundler has a long standing bug of fucking up the generation of its config file.
