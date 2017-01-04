@@ -64,8 +64,12 @@ in myHaskellBuilder haskpkgs {
   };
 
   buildInputs = with pkgs; [
-    gtk2
+    gtk2 autoconf
   ];
+
+  preConfigure = ''
+    ( cd vendor/x11 && autoreconf -f )
+  '';
 
   postInstall = ''
     # Install taffybar configuration:
@@ -74,5 +78,9 @@ in myHaskellBuilder haskpkgs {
 
     # For backwards compatibility:
     cp $out/bin/xmonadrc $out/bin/xmonad
+  '';
+
+  shellHook = ''
+    eval $preConfigure
   '';
 }
