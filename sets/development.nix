@@ -5,6 +5,7 @@
   packages = with pkgs; [
     # Revision Control Systems:
     gitAndTools.gitFull gitAndTools.gitAnnex darcs mr
+    haskellPackages.gitit
 
     # Build tools:
     gnumake
