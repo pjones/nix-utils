@@ -59,8 +59,8 @@ in myHaskellBuilder haskpkgs {
 
   src = fetchgit {
     url    = "git://git.devalot.com/xmonadrc.git";
-    rev    = "584bbdfacf6d30fbee7d38dfd30c1de8f28382d0";
-    sha256 = "1wvn93ghgskf8snjdry42imb2fiwfp1gvgv30rnn5rqlg980msi5";
+    rev    = "4e79a3fdbb7bd94511c39ffd1a83e987117f6c84";
+    sha256 = "1y4hd3lzkfkzzdb7nm59n91n0w2b8yq3kffdlrvfz9smqz74sfm5";
   };
 
   buildInputs = with pkgs; [
