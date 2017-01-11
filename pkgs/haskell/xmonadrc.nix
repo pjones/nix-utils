@@ -5,7 +5,6 @@ let haskpkgs = p: with p; [
       HTTP
       MonadRandom
       QuickCheck
-      X11
       X11-xft
       attoparsec
       base
@@ -59,13 +58,15 @@ in myHaskellBuilder haskpkgs {
 
   src = fetchgit {
     url    = "git://git.devalot.com/xmonadrc.git";
-    rev    = "4e79a3fdbb7bd94511c39ffd1a83e987117f6c84";
-    sha256 = "1y4hd3lzkfkzzdb7nm59n91n0w2b8yq3kffdlrvfz9smqz74sfm5";
+    rev    = "3a31174851d1ccd463c49a2f02209f8ecaa1d162";
+    sha256 = "1yg94g2pwsd5rlrc2al8gr39zzbzv91y6w0znxqz5w5pb852rn2z";
   };
 
-  buildInputs = with pkgs; [
+  buildInputs = (with pkgs; [
     gtk2 autoconf
-  ];
+  ]) ++ (with pkgs.xorg; [
+    libX11 libXext libXft libXinerama libXrandr libXrender
+  ]);
 
   preConfigure = ''
     ( cd vendor/x11 && autoreconf -f )
