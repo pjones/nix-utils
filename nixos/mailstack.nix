@@ -806,6 +806,11 @@ in
     '';
 
     ############################################################################
+    # Nightly Statistics:
+    services.pmade.pflogsumm.enable = true;
+    services.pmade.pflogsumm.to     = "postmaster@${cfg.externalServerName}";
+
+    ############################################################################
     # Run Postfix:
     systemd.services.postfix = {
       description = "Postfix Mail Server";
