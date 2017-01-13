@@ -41,9 +41,9 @@ in myHaskellBuilder haskpkgs {
   version = "0.4.0.0";
 
   src = fetchgit {
-    url    = "ssh://dracula.pmade.com/git/devalot/site.git";
-    rev    = "92863903350bbac2909b23aebd938673c34200d5";
-    sha256 = "0bwa2q8pm4383z83ap1ld3aw56qp8mppxf58nlclf095c4f6iyjg";
+    url    = "file:///home/pjones/backup/moriarty/git/devalot/site.git";
+    rev    = "4e3185a20a8478cc878be362ef997c15b70f75c2";
+    sha256 = "1hlbfhil7hlny3a4gvhldrmhj7lf02di6lz3p1cin61ijb22xvlb";
   };
 
   # Needed to build the site.

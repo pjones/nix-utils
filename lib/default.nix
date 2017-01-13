@@ -1,9 +1,8 @@
-{}:
-
-let pkgs = import <nixpkgs> {};
-in
+{ pkgs ? import <nixpkgs> {}
+}:
 
 with import <nixpkgs/lib/lists.nix>; rec {
+  # Bootstrap this library.
   boot = hostConfig: process (hostConfig {pkgs = allPkgs;});
 
   # Process a set containing imports and packages.
@@ -15,10 +14,12 @@ with import <nixpkgs/lib/lists.nix>; rec {
   pkgSet = packages:
     fold (a: b: {"${a.name}" = a;} // b) {} packages;
 
-  allPkgs =
-    (import ../pkgs/default.nix {inherit pkgs;}) //
-      pkgs;
+  # Packages in the ../pkgs directory.
+  localPkgs = import ../pkgs/default.nix {inherit pkgs;};
 
-  load = file:
-    process (import file {pkgs = allPkgs;});
+  # Local packages and those from nixpkgs.
+  allPkgs = localPkgs // pkgs;
+
+  # Load the given file, passing in pkgs.
+  load = file: process (import file {pkgs = allPkgs;});
 }
