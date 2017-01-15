@@ -743,7 +743,7 @@ in
     services.pmade-rmilter = {
       enable = true;
       bindInetSockets = [ "127.0.0.1:11990" ];
-      socketActivation = false;
+      socketActivation = false; # Otherwise I get connection failures.
       postfix.enable = false; # I'll do this myself.
 
       rspamd.enable = true;
