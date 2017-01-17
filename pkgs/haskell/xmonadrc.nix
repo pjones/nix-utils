@@ -5,7 +5,6 @@ let haskpkgs = p: with p; [
       HTTP
       MonadRandom
       QuickCheck
-      X11-xft
       attoparsec
       base
       bytestring
@@ -51,15 +50,15 @@ let haskpkgs = p: with p; [
     ];
 in myHaskellBuilder haskpkgs {
   name    = "xmonadrc";
-  version = "0.2.0.0";
+  version = "0.2.1.0";
 
   # 7.10.3 doesn't work thanks to gtk2hs:
   ghc = pkgs.haskell.packages.ghc801;
 
   src = fetchgit {
     url    = "git://git.devalot.com/xmonadrc.git";
-    rev    = "3a31174851d1ccd463c49a2f02209f8ecaa1d162";
-    sha256 = "1yg94g2pwsd5rlrc2al8gr39zzbzv91y6w0znxqz5w5pb852rn2z";
+    rev    = "db17cfab3baf689db492787d04433069afec1dc0";
+    sha256 = "1267lf93k83w33zq837df21qz6g3mbvjrf6ir2a870as4z82xfsh";
   };
 
   buildInputs = (with pkgs; [
