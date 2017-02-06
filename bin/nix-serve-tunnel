@@ -4,6 +4,17 @@
 # Tunnel over to a server that has a good binary cache and serve it.
 
 ################################################################################
+# This file is part of the package nix-utils. It is subject to the
+# license terms in the LICENSE file found in the top-level directory
+# of this distribution and at:
+#
+#   https://github.com/pjones/nix-utils/blob/master/LICENSE
+#
+# No part of the nix-utils package, including this file, may be copied,
+# modified, propagated, or distributed except according to the terms
+# contained in the LICENSE file.
+
+################################################################################
 if [ $# -eq 0 ]; then
   host=hawkins.pmade.com
 else

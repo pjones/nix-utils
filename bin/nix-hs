@@ -1,0 +1,122 @@
+#!/bin/sh -eu
+
+################################################################################
+# Build a Haskell project using my Nix configuration and libraries.
+
+################################################################################
+# This file is part of the package nix-utils. It is subject to the
+# license terms in the LICENSE file found in the top-level directory
+# of this distribution and at:
+#
+#   https://github.com/pjones/nix-utils/blob/master/LICENSE
+#
+# No part of the nix-utils package, including this file, may be copied,
+# modified, propagated, or distributed except according to the terms
+# contained in the LICENSE file.
+
+################################################################################
+# Help us find ourselves:
+: ${NIX_UTILS:=~/core/utils/nix}
+
+################################################################################
+usage () {
+  cat <<EOF
+Usage: nix-hs [options]
+
+  -h      This message
+  -s      Start a shell instead of building
+EOF
+}
+
+################################################################################
+# Some variables we're going to need:
+shell_only=NO
+local_packages=${NIX_UTILS}/pkgs/haskell
+haskell_lib=${NIX_UTILS}/lib/haskell
+project_name=`basename $PWD`
+
+################################################################################
+# Does the current directory contain a cabal file?
+has_cabal_file () {
+  if [ `ls | egrep '^.*cabal$' | wc -l` -eq 1 ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+################################################################################
+# Start by getting ourselves in the root directory of the project:
+go_to_project_root () {
+  while ! has_cabal_file && [ `pwd` != / ]; do
+    cd ..
+  done
+
+  if [ `pwd` = / ]; then
+    echo "ERROR: missing cabal file for this project!"
+    exit 1;
+  fi
+}
+
+################################################################################
+# $1: The nix file to use.
+run_nix_shell () {
+  nix_file=$1; shift
+  exec nix-shell --pure "$nix_file" "$@"
+}
+
+################################################################################
+# Run nix shell or the given builder:
+#
+#  $1: The nix file to use.
+run_shell_or_builder () {
+  nix_file=$1; shift
+  builder=$1;  shift
+
+  if [ "$shell_only" = "YES" -o -z "$builder" ]; then
+    run_nix_shell $nix_file "$@"
+  else
+    run_nix_shell $nix_file --run $builder "$@"
+  fi
+}
+
+################################################################################
+while getopts "hs" o; do
+  case "${o}" in
+    h) usage
+       exit
+       ;;
+
+    s) shell_only=YES
+       ;;
+    
+    *) echo "invalid option ${o}"
+       exit 1
+       ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+################################################################################
+# Get in the correct directory:
+go_to_project_root
+
+################################################################################
+# Check to see if we're building a package that is listed in my local
+# Nix package set.
+if [ -r $local_packages/$project_name.nix ]; then
+  # Great, let's use the package!
+  export HASKELL_NIX_FILE=$local_packages/$project_name.nix
+  run_shell_or_builder $haskell_lib/local.nix hsbuild "$@"
+else
+  # Fallback to using stack:
+  nix_file=$haskell_lib/stack.nix
+
+  if [ "$shell_only" = "YES" ]; then
+    run_nix_shell $nix_file "$@"
+  else
+    command=$1; shift
+    exec stack --nix --nix-shell-file=$nix_file ${command:-build} "$@"
+  fi
+fi

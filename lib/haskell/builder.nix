@@ -1,17 +1,21 @@
 # Based on: pkgs/development/haskell-modules/generic-stack-builder.nix
 { stdenv, haskell, pkgconfig, glibcLocales, findutils, coreutils
-, forceLocalSource ? false # Override for building from PWD.
-, extraBuildInputs ? [ ]   # Override for building from PWD with extra tools.
+, gnupg, git
+, forceLocal ? false # Override for building from PWD.
 }:
 
 with stdenv.lib;
+with builtins;
 
 haskpkgs:
 { name
 , version
-, ghc              ? haskell.packages.ghc7103
 , buildInputs      ? []
+, shellHook        ? ""
 , LD_LIBRARY_PATH  ? []
+, ghc              ? if stringLength (getEnv "GHC_VER") == 0
+                       then haskell.packages.ghc7103
+                       else haskell.packages."ghc${getEnv "GHC_VER"}"
 , ...
 }@args:
 
@@ -22,6 +26,12 @@ let find  = "${findutils}/bin/find";
     # Default Haskell packages that are needed:
     defhaskpkgs = (p: with p; [ Cabal cabal-install hlint ]);
     allhaskpkgs = ghc.ghcWithPackages (p: (defhaskpkgs p) ++ (haskpkgs p));
+
+    # Packages needed when running under a local nix-shell:
+    localPackages = [
+      gnupg # sign tags and releases
+      git   # git-tag(1)
+    ];
 
     # Make cabal-install happy:
     setHome = ''
@@ -42,7 +52,7 @@ in stdenv.mkDerivation (args // {
   ghc = ghc.ghc.name; # (Turn the ghc function into a string.)
 
   ##############################################################################
-  src = if forceLocalSource
+  src = if forceLocal
         then builtins.getEnv "PWD"
         else args.src;
 
@@ -52,7 +62,8 @@ in stdenv.mkDerivation (args // {
 
   ##############################################################################
   buildInputs = buildInputs ++ [ allhaskpkgs pkgconfig ] ++
-    optional stdenv.isLinux glibcLocales ++ extraBuildInputs;
+    optional stdenv.isLinux glibcLocales ++
+    optional forceLocal localPackages;
 
   ##############################################################################
   configurePhase = ''
@@ -98,4 +109,13 @@ in stdenv.mkDerivation (args // {
 
     runHook postInstall
   '';
+
+  ##############################################################################
+  shellHook = ''
+    # Always make sure the project is configured:
+    eval "$configurePhase"
+
+    # Helper function:
+    hsbuild () { eval "$buildPhase"; }
+  '' + shellHook;
 })

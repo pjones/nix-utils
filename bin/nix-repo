@@ -5,6 +5,17 @@
 # http://anderspapitto.com/posts/2015-11-01-nixos-with-local-nixpkgs-checkout.html
 
 ################################################################################
+# This file is part of the package nix-utils. It is subject to the
+# license terms in the LICENSE file found in the top-level directory
+# of this distribution and at:
+#
+#   https://github.com/pjones/nix-utils/blob/master/LICENSE
+#
+# No part of the nix-utils package, including this file, may be copied,
+# modified, propagated, or distributed except according to the terms
+# contained in the LICENSE file.
+
+################################################################################
 # Default (environment) variables:
 NIX_DEFEXPR=$HOME/.nix-defexpr
 NIX_REPO_BASE=${NIX_REPO_BASE:-$NIX_DEFEXPR/custom}

@@ -14,11 +14,7 @@ let
   # Load the file given to us in NIX_PATH:
   local = pkgs.callPackage filepath {
     myHaskellBuilder = myHaskellBuilder.override {
-      forceLocalSource = true;
-      extraBuildInputs = with pkgs; [
-        gnupg # sign tags and releases
-        git   # git-tag(1)
-      ];
+      forceLocal = true;
     };
   };
 
