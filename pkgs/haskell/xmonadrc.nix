@@ -79,8 +79,4 @@ in myHaskellBuilder haskpkgs {
     # For backwards compatibility:
     cp $out/bin/xmonadrc $out/bin/xmonad
   '';
-
-  shellHook = ''
-    eval $preConfigure
-  '';
 }
