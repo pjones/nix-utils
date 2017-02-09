@@ -11,6 +11,7 @@
 #
 #   * Add roomserviceLines to .repo/local_manifests/roomservice.xml
 #   * Continue fixing wacky shit.
+#   * https://gerrit.omnirom.org/#/c/21661/
 
 let
   pkgs       = import <nixpkgs> {};
