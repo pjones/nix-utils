@@ -24,6 +24,7 @@ usage () {
 Usage: nix-hs [options]
 
   -h      This message
+  -p name Use project NAME instead of autodetecting
   -s      Start a shell instead of building
 EOF
 }
@@ -81,15 +82,21 @@ run_shell_or_builder () {
 }
 
 ################################################################################
-while getopts "hs" o; do
+while getopts "hp:sx" o; do
   case "${o}" in
     h) usage
        exit
        ;;
 
+    p) project_name=$OPTARG
+       ;;
+
     s) shell_only=YES
        ;;
-    
+
+    x) set -x
+       ;;
+
     *) echo "invalid option ${o}"
        exit 1
        ;;
@@ -116,7 +123,7 @@ else
   if [ "$shell_only" = "YES" ]; then
     run_nix_shell $nix_file "$@"
   else
-    command=$1; shift
-    exec stack --nix --nix-shell-file=$nix_file ${command:-build} "$@"
+    command=${1:-build}; shift
+    exec stack --nix --nix-shell-file=$nix_file ${command} "$@"
   fi
 fi
