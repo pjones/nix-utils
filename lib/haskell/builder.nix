@@ -24,7 +24,7 @@ let find  = "${findutils}/bin/find";
     mkdir = "${coreutils}/bin/mkdir";
 
     # Default Haskell packages that are needed:
-    defhaskpkgs = (p: with p; [ Cabal cabal-install hlint ]);
+    defhaskpkgs = (p: with p; [ Cabal cabal-install hlint packdeps ]);
     allhaskpkgs = ghc.ghcWithPackages (p: (defhaskpkgs p) ++ (haskpkgs p));
 
     # Packages needed when running under a local nix-shell:
