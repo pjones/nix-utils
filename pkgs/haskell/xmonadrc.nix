@@ -68,7 +68,7 @@ in myHaskellBuilder haskpkgs {
   ]);
 
   preConfigure = ''
-    ( cd vendor/x11 && autoreconf -f )
+    ( test -d vendor/x11 && cd vendor/x11 && autoreconf -f )
   '';
 
   postInstall = ''
