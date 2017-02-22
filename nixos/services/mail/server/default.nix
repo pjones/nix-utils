@@ -193,11 +193,16 @@ let
 
     # Restrictions and Spam Blocking
     smtpd_sender_login_maps = hash:${cfg.postfixBaseDir}/etc/sender_login_maps
+    smtpd_helo_required = yes
 
     smtpd_helo_restrictions =
       permit_sasl_authenticated,
-      reject_unknown_helo_hostname,
+      reject_invalid_helo_hostname,
       permit
+
+      # The following option was removed because Arizona government
+      # mail servers are misconfigured:
+      # reject_unknown_helo_hostname
 
     smtpd_client_restrictions =
       permit_sasl_authenticated,
