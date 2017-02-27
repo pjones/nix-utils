@@ -87,6 +87,10 @@
     x11vnc
     ssvnc
 
+    # Themes
+    arc-theme
+    arc-icon-theme
+
     # Misc.
     clockdown
     dunst
