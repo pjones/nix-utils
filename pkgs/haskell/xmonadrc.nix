@@ -50,15 +50,15 @@ let haskpkgs = p: with p; [
     ];
 in myHaskellBuilder haskpkgs {
   name    = "xmonadrc";
-  version = "0.2.1.0";
+  version = "17.2.27.0";
 
   # 7.10.3 doesn't work thanks to gtk2hs:
   ghc = pkgs.haskell.packages.ghc801;
 
   src = fetchgit {
     url    = "git://git.devalot.com/xmonadrc.git";
-    rev    = "db17cfab3baf689db492787d04433069afec1dc0";
-    sha256 = "1267lf93k83w33zq837df21qz6g3mbvjrf6ir2a870as4z82xfsh";
+    rev    = "b489c36a733661a3102c73baed81ccd64ff75574";
+    sha256 = "1falgzcjcf02x81dna0z957cimky6fijk3ay7zz3gi6vfm2bn9z9";
   };
 
   buildInputs = (with pkgs; [
@@ -75,8 +75,5 @@ in myHaskellBuilder haskpkgs {
     # Install taffybar configuration:
     mkdir -p $out/share/taffybar
     cp etc/taffybar.gtk $out/share/taffybar/taffybar.rc
-
-    # For backwards compatibility:
-    cp $out/bin/xmonadrc $out/bin/xmonad
   '';
 }
